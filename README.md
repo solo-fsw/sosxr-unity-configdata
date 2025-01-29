@@ -11,10 +11,9 @@
 4. Paste the URL of this repo into the text field and press `Add`.
  
 ## Usage
-1. Create a new `ConfigData` asset by right-clicking in the Project window and selecting `Create > SOSXR > ConfigData`.
-2. Create a new `ConfigDataHandler` asset by right-clicking in the Project window and selecting `Create > SOSXR > ConfigDataHandler`.
-3. Assign the `ConfigData` asset to the `ConfigDataHandler` asset.
-4. Create a JSON file by hitting the `Create Config Json` button in the `ConfigDataHandler` asset.
-5. Edit the JSON file, or the values in the Inspector, to your liking.
-
-Make sure to always use the `configDataHandler.AmendConfigData()` method to change the `ConfigData` JSON asset, as this will also save the changes to the asset.
+1. Create a ScriptableObject which holds your data by deriving from `ConfigDataBase`. See `DemoConfigData` and `DemoConfigDataTwo` as an example. 
+2. Create a new instance of your justly created asset by right-clicking in the Project window and selecting the same path as you set in the `[CreateAssetMenu(...)]` section of the ScriptableObject (e.g. `Create > SOSXR > Config Data > Demo Config Data`.
+3. Create a JSON file by hitting the `CreateNewConfigJsonFile` button. See the console to find out where it has been created.
+4. Edit the JSON file, or the values in the Inspector, to your liking.
+5. Hit the `AmendConfigJsonFile` button in the Inspector once you've done changes in the Inspector, or `LoadConfigFromJsonFile` if you've made changes in the JSON directly.
+6. If you're making changes to your data file in code, make sure to always use the `ConfigDataHandler.AmendConfigData(YourConfigData)` method to store the changes in the JSON asset.
