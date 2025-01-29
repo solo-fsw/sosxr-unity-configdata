@@ -3,12 +3,13 @@ using System.IO;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "ConfigDataHandler", menuName = "SOSXR/ConfigDataHandler")]
+[CreateAssetMenu(fileName = "Config Data Handler", menuName = "SOSXR/Config Data/Config Data Handler", order = 0)]
 public class ConfigDataHandler : ScriptableObject
 {
     [Tooltip("Always has an extension of .json")]
     [SerializeField] private string m_configFileName = "config";
-    public ConfigData ConfigData;
+
+    public ConfigDataBase ConfigData { get; set; }
 
     /// <summary>
     ///     Gets the path to the config file in the persistent data path. Check the User
@@ -16,7 +17,7 @@ public class ConfigDataHandler : ScriptableObject
     ///     On Android is at:
     ///     - /storage/emulated/0/Android/data/com.DefaultCompany.ProjectName/files/config.json
     ///     On macOS is at:
-    ///     - /Users/[USERNAME]/Library/Application Support/DefaultCompany/ProjectName/config.json
+    ///     - /Users/[USERNAME]/Library/Application Support/DefaultCompany/ProjectName/config.jsoni
     ///     On Windows is at:
     ///     - C:\Users\[USERNAME]\AppData\LocalLow\DefaultCompany\ProjectName\config.json
     /// </summary>
@@ -26,8 +27,8 @@ public class ConfigDataHandler : ScriptableObject
     /// <summary>
     ///     Creates a new default config and writes it to the persistent data path.
     /// </summary>
-    [ContextMenu(nameof(CreateConfigJson))]
-    public void CreateConfigJson()
+    [ContextMenu(nameof(CreateNewConfigJsonFile))]
+    public void CreateNewConfigJsonFile()
     {
         if (File.Exists(ConfigPath))
         {
@@ -60,13 +61,13 @@ public class ConfigDataHandler : ScriptableObject
     /// <summary>
     ///     Loads the JSON data from the config file in the persistent data path.
     /// </summary>
-    [ContextMenu(nameof(LoadConfigFromJson))]
-    public void LoadConfigFromJson()
+    [ContextMenu(nameof(LoadConfigFromJsonFile))]
+    public void LoadConfigFromJsonFile()
     {
         if (!File.Exists(ConfigPath))
         {
             Debug.LogWarningFormat("You're trying to load a config file, but it is not found at: " + ConfigPath);
-            CreateConfigJson();
+            CreateNewConfigJsonFile();
 
             return;
         }
@@ -95,13 +96,13 @@ public class ConfigDataHandler : ScriptableObject
     }
 
 
-    [ContextMenu(nameof(AmendConfigData))]
-    public void AmendConfigData()
+    [ContextMenu(nameof(AmendConfigJsonFile))]
+    public void AmendConfigJsonFile()
     {
         if (!File.Exists(ConfigPath))
         {
             Debug.LogWarningFormat("You're trying to amend an existing config file, but it is not found at: " + ConfigPath);
-            CreateConfigJson();
+            CreateNewConfigJsonFile();
 
             return;
         }
@@ -129,12 +130,12 @@ public class ConfigDataHandler : ScriptableObject
 
     private void OnDestroy()
     {
-        DeleteConfigJson();
+        DeleteConfigJsonFile();
     }
 
 
-    [ContextMenu(nameof(DeleteConfigJson))]
-    public void DeleteConfigJson()
+    [ContextMenu(nameof(DeleteConfigJsonFile))]
+    public void DeleteConfigJsonFile()
     {
         if (File.Exists(ConfigPath))
         {

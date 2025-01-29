@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d906dd272f6443dbb3a0ee86063dbb12, type: 3}
-  m_Name: Demo_ConfigData
+  m_Script: {fileID: 11500000, guid: aa28adf7493144f48378af32ac074752, type: 3}
+  m_Name: Demo Config Data
   m_EditorClassIdentifier: 
+  DataHandler: {fileID: 11400000, guid: be0e6deaf7c5a4d4299430615454f007, type: 2}
   TaskName: TaskToDo
   PPN: -1
   Order: 3
   Url: https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeAq2
   VideoName: VideoName
-  ClipDirectory: /Users/TestUserArborXR/videos
+  ClipDirectory: /Users/mrstruijk/ArborXR/videos
   Extensions:
   - .mp4
   ShowDebug: 0

@@ -201,9 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_configDataHandler: {fileID: 11400000, guid: be0e6deaf7c5a4d4299430615454f007, type: 2}
-  ConfigInformationChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &539537834
 Transform:
   m_ObjectHideFlags: 0

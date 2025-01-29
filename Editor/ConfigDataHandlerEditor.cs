@@ -5,56 +5,49 @@ using UnityEngine;
 [CustomEditor(typeof(ConfigDataHandler))]
 public class ConfigDataHandlerEditor : Editor
 {
-    private Editor _configDataEditor;
-
-
     public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+        DrawButtons();
+    }
+
+
+    public void DrawEmbeddedInspector()
+    {
+        serializedObject.Update();
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_configFileName"));
+
+        GUILayout.Space(5);
+
+        DrawButtons();
+
+        serializedObject.ApplyModifiedProperties();
+    }
+
+
+    private void DrawButtons()
     {
         var configDataHandler = (ConfigDataHandler) target;
 
-        DrawDefaultInspector();
-        
-        GUILayout.Space(15);
-
-        if (configDataHandler.ConfigData != null)
+        if (GUILayout.Button(nameof(configDataHandler.CreateNewConfigJsonFile)))
         {
-            if (_configDataEditor == null)
-            {
-                _configDataEditor = CreateEditor(configDataHandler.ConfigData);
-            }
-
-            _configDataEditor.OnInspectorGUI();
-        }
-        else
-        {
-            EditorGUILayout.HelpBox("ConfigData is null. Please assign a ScriptableObject.", MessageType.Warning);
+            configDataHandler.CreateNewConfigJsonFile();
         }
 
-        if (configDataHandler.ConfigData == null)
+        if (GUILayout.Button(nameof(configDataHandler.LoadConfigFromJsonFile)))
         {
-            return;
-        }
-
-        GUILayout.Space(15);
-        
-        if (GUILayout.Button(nameof(configDataHandler.CreateConfigJson)))
-        {
-            configDataHandler.CreateConfigJson();
-        }
-
-        if (GUILayout.Button(nameof(configDataHandler.LoadConfigFromJson)))
-        {
-            configDataHandler.LoadConfigFromJson();
+            configDataHandler.LoadConfigFromJsonFile();
         }
 
         if (GUILayout.Button("Amend Config Json with current Inspector values"))
         {
-            configDataHandler.AmendConfigData();
+            configDataHandler.AmendConfigJsonFile();
         }
 
-        if (GUILayout.Button(nameof(configDataHandler.DeleteConfigJson)))
+        if (GUILayout.Button(nameof(configDataHandler.DeleteConfigJsonFile)))
         {
-            configDataHandler.DeleteConfigJson();
+            configDataHandler.DeleteConfigJsonFile();
         }
     }
 }

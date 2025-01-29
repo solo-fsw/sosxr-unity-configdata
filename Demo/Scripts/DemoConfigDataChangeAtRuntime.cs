@@ -1,17 +1,14 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 
-public class ChangeConfigDataAtRuntime : MonoBehaviour
+public class DemoConfigDataChangeAtRuntime : MonoBehaviour
 {
-    public ConfigDataHandler m_configDataHandler;
-
-    [SerializeField] private UnityEvent ConfigInformationChanged;
+    [SerializeField] private DemoConfigData m_demoConfigData;
 
 
     private void Awake()
     {
-        m_configDataHandler.LoadConfigFromJson();
+        m_demoConfigData.DataHandler.LoadConfigFromJsonFile();
     }
 
 
@@ -42,16 +39,27 @@ public class ChangeConfigDataAtRuntime : MonoBehaviour
 
     private void AmendConfigData(int participantNumber = -1, string videoClipName = null)
     {
+        if (m_demoConfigData == null)
+        {
+            Debug.LogError("ConfigData is null or not of type DemoConfigData");
+
+            return;
+        }
+
         if (participantNumber != -1)
         {
-            m_configDataHandler.ConfigData.PPN = participantNumber;
+            m_demoConfigData.PPN = participantNumber;
+
+            Debug.Log("Participant number changed to " + participantNumber);
         }
 
         if (videoClipName != null)
         {
-            m_configDataHandler.ConfigData.VideoName = videoClipName;
+            m_demoConfigData.VideoName = videoClipName;
+
+            Debug.Log("Video clip name changed to " + videoClipName);
         }
 
-        ConfigInformationChanged?.Invoke();
+        m_demoConfigData.DataHandler.AmendConfigJsonFile();
     }
 }
