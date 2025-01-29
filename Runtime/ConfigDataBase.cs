@@ -8,18 +8,4 @@ using UnityEngine;
 /// </summary>
 public abstract class ConfigDataBase : ScriptableObject
 {
-    [HideInInspector] public ConfigDataHandler DataHandler; // This is hidden in the inspector as it is drawn by the ConfigDataEditor
-
-
-    private void OnValidate()
-    {
-        if (DataHandler == null || DataHandler.ConfigData == this)
-        {
-            return;
-        }
-
-        DataHandler.ConfigData = this;
-            
-        Debug.Log("ConfigDataHandler ConfigData has been updated to match the current ConfigData");
-    }
 }

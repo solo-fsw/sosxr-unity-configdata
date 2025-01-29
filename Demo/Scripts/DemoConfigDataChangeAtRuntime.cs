@@ -8,7 +8,7 @@ public class DemoConfigDataChangeAtRuntime : MonoBehaviour
 
     private void Awake()
     {
-        m_demoConfigData.DataHandler.LoadConfigFromJsonFile();
+        ConfigDataHandler.LoadConfigFromJsonFile(m_demoConfigData);
     }
 
 
@@ -60,6 +60,6 @@ public class DemoConfigDataChangeAtRuntime : MonoBehaviour
             Debug.Log("Video clip name changed to " + videoClipName);
         }
 
-        m_demoConfigData.DataHandler.AmendConfigJsonFile();
+        ConfigDataHandler.AmendConfigJsonFile(m_demoConfigData);
     }
 }

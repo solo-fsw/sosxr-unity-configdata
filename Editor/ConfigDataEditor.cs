@@ -5,32 +5,34 @@ using UnityEngine;
 [CustomEditor(typeof(ConfigDataBase), true)]
 public class ConfigDataEditor : Editor
 {
-    private ConfigDataHandlerEditor _dataHandlerEditor;
-
-
     public override void OnInspectorGUI()
     {
         var configData = (ConfigDataBase) target;
 
         DrawDefaultInspector();
-        
+
         GUILayout.Space(50);
-        
+
         EditorGUILayout.LabelField("ConfigData", EditorStyles.boldLabel);
-        
-        serializedObject.Update();
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("DataHandler"));
-        serializedObject.ApplyModifiedProperties();
 
-        if (configData.DataHandler == null)
+        if (GUILayout.Button(nameof(ConfigDataHandler.CreateNewConfigJsonFile)))
         {
-            EditorGUILayout.HelpBox("ConfigDataHandler is null. Please assign a ScriptableObject.", MessageType.Warning);
-
-            return;
+            ConfigDataHandler.CreateNewConfigJsonFile(configData);
         }
 
-        _dataHandlerEditor ??= CreateEditor(configData.DataHandler) as ConfigDataHandlerEditor;
+        if (GUILayout.Button(nameof(ConfigDataHandler.LoadConfigFromJsonFile)))
+        {
+            ConfigDataHandler.LoadConfigFromJsonFile(configData);
+        }
 
-        _dataHandlerEditor?.DrawEmbeddedInspector();
+        if (GUILayout.Button("Amend Config Json with current Inspector values"))
+        {
+            ConfigDataHandler.AmendConfigJsonFile(configData);
+        }
+
+        if (GUILayout.Button(nameof(ConfigDataHandler.DeleteConfigJsonFile)))
+        {
+            ConfigDataHandler.DeleteConfigJsonFile();
+        }
     }
 }

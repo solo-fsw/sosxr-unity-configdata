@@ -14,6 +14,7 @@ public class DemoConfigData : ConfigDataBase
     public bool ShowDebug = false;
 }
 
+
 public enum Order
 {
     InOrder,

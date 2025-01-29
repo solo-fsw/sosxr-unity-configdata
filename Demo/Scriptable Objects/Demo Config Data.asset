@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa28adf7493144f48378af32ac074752, type: 3}
   m_Name: Demo Config Data
   m_EditorClassIdentifier: 
-  DataHandler: {fileID: 11400000, guid: be0e6deaf7c5a4d4299430615454f007, type: 2}
-  TaskName: TaskToDo
-  PPN: -1
+  DataHandler: {fileID: 0}
+  TaskName: open-source demo
+  PPN: 42
   Order: 3
   Url: https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeAq2
   VideoName: VideoName
-  ClipDirectory: /Users/mrstruijk/ArborXR/videos
+  ClipDirectory: /Users/Shared/Movies/Clips
   Extensions:
   - .mp4
+  - .mov
+  - .mkv
   ShowDebug: 0
