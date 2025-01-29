@@ -8,4 +8,5 @@ using UnityEngine;
 /// </summary>
 public abstract class ConfigDataBase : ScriptableObject
 {
+    
 }

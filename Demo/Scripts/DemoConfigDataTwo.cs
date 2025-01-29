@@ -1,8 +1,8 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Demo Config Data Open Source Presentation", menuName = "SOSXR/Config Data/Demo Config Data Open Source Presentation")]
-public class DemoConfigDataOpenSourcePresentation : ConfigDataBase
+[CreateAssetMenu(fileName = "Demo Config Data Two", menuName = "SOSXR/Config Data/Demo Config Data Two")]
+public class DemoConfigDataTwo : ConfigDataBase
 {
     public string MonsterDemoUrl = "https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeAq2";
     public string MonsterFBXFolder = "/Users/Mine/3DModels/Monsters";
