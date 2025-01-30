@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class DemoConfigDataDebugToUnityEvent : MonoBehaviour
 {
     [SerializeField] private DemoConfigData m_demoConfigData;
-    [SerializeField] private UnityEvent m_eventToFire;
+    [SerializeField] private UnityEvent<bool> m_eventToFire;
 
 
     private void OnEnable()
@@ -17,11 +17,6 @@ public class DemoConfigDataDebugToUnityEvent : MonoBehaviour
             return;
         }
 
-        if (!m_demoConfigData.ShowDebug)
-        {
-            return;
-        }
-
-        m_eventToFire.Invoke();
+        m_eventToFire.Invoke(m_demoConfigData.ShowDebug);
     }
 }

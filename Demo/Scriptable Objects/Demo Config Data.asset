@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa28adf7493144f48378af32ac074752, type: 3}
   m_Name: Demo Config Data
   m_EditorClassIdentifier: 
-  DataHandler: {fileID: 0}
   TaskName: open-source demo
-  PPN: 42
+  PPN: 1234
   Order: 3
   Url: https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeAq2
-  VideoName: VideoName
+  VideoName: Lala
   ClipDirectory: /Users/Shared/Movies/Clips
   Extensions:
-  - .mp4
-  - .mov
-  - .mkv
-  ShowDebug: 0
+  - .fbx
+  - .obj
+  - .3ds
+  ShowDebug: 1
