@@ -35,7 +35,7 @@ public class ConfigDataEditor : Editor
         {
             ConfigDataHandler.DeleteConfigJsonFile();
         }
-        
+
         #if !UNITY_EDITOR_LINUX
         if (File.Exists(ConfigDataHandler.ConfigPath) && GUILayout.Button("Reveal in Finder"))
         {
