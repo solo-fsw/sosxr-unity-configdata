@@ -15,7 +15,7 @@ public static class ConfigDataHandler
     ///     On Windows is at:
     ///     - C:\Users\[USERNAME]\AppData\LocalLow\DefaultCompany\ProjectName\config.json
     /// </summary>
-    private static string ConfigPath => Path.Combine(Application.persistentDataPath, _configDataFileName);
+    public static string ConfigPath => Path.Combine(Application.persistentDataPath, _configDataFileName);
 
     private static readonly string _configDataFileName = "config.json";
 

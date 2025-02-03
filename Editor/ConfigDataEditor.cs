@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,5 +35,12 @@ public class ConfigDataEditor : Editor
         {
             ConfigDataHandler.DeleteConfigJsonFile();
         }
+        
+        #if !UNITY_EDITOR_LINUX
+        if (File.Exists(ConfigDataHandler.ConfigPath) && GUILayout.Button("Reveal in Finder"))
+        {
+            EditorUtility.RevealInFinder(ConfigDataHandler.ConfigPath);
+        }
+        #endif
     }
 }
