@@ -35,7 +35,7 @@ namespace SOSXR.ConfigData
 
             if (File.Exists(HandleConfigData.ConfigPath) && GUILayout.Button(nameof(HandleConfigData.DeleteConfigJsonFile)))
             {
-                HandleConfigData.DeleteConfigJsonFile(HandleConfigData.ConfigPath);
+                HandleConfigData.DeleteConfigJsonFile();
             }
 
             #if !UNITY_EDITOR_LINUX

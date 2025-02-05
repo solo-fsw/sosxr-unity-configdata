@@ -11,5 +11,11 @@ namespace SOSXR.ConfigData
     public abstract class BaseConfigData : ScriptableObject
     {
         public string ConfigName => name; // Always return the asset's name in the Project window
+
+
+        private void OnDestroy()
+        {
+            HandleConfigData.DeleteConfigJsonFile();
+        }
     }
 }

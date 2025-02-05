@@ -9,10 +9,8 @@ namespace SOSXR.ConfigData
     [Serializable]
     public static class HandleConfigData
     {
-        public static string ConfigPath { get; private set; }
+        public static string ConfigPath { get; set; }
         private static string _previousJson;
-
-
         private static string _previousConfigPath;
 
         public static Action OnConfigDataChanged;
@@ -59,19 +57,15 @@ namespace SOSXR.ConfigData
                 return;
             }
 
-
             CreateConfigPath(configData.ConfigName);
+
+            var jsonData = JsonUtility.ToJson(configData, true);
+            jsonData = CleanJson(jsonData);
 
             try
             {
-                var jsonData = JsonUtility.ToJson(configData, true);
-                jsonData = CleanJson(jsonData);
-                File.WriteAllText(ConfigPath, jsonData);
-
-                OnConfigDataChanged?.Invoke();
-
-                _previousConfigPath = ConfigPath;
-                _previousJson = jsonData;
+                WriteJson(jsonData);
+                Debug.LogFormat("Created new config file at: " + ConfigPath);
             }
             catch (Exception e)
             {
@@ -121,6 +115,8 @@ namespace SOSXR.ConfigData
 
                 OnConfigDataChanged?.Invoke();
                 _previousJson = jsonData;
+
+                Debug.LogFormat("Loaded config file from: " + ConfigPath);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -158,7 +154,6 @@ namespace SOSXR.ConfigData
             var jsonData = JsonUtility.ToJson(configData, true);
             jsonData = CleanJson(jsonData);
 
-
             if (_previousJson == jsonData)
             {
                 Debug.LogFormat("ConfigData has not changed.");
@@ -168,12 +163,7 @@ namespace SOSXR.ConfigData
 
             try
             {
-                File.WriteAllText(ConfigPath, jsonData);
-
-                OnConfigDataChanged?.Invoke();
-
-                _previousConfigPath = ConfigPath;
-                _previousJson = jsonData;
+                WriteJson(jsonData);
 
                 Debug.LogFormat("Amended config file at: " + ConfigPath);
             }
@@ -184,8 +174,25 @@ namespace SOSXR.ConfigData
         }
 
 
+        private static void WriteJson(string jsonData)
+        {
+            File.WriteAllText(ConfigPath, jsonData);
+
+            OnConfigDataChanged?.Invoke();
+
+            _previousConfigPath = ConfigPath;
+            _previousJson = jsonData;
+        }
+
+
         [ContextMenu(nameof(DeleteConfigJsonFile))]
-        public static void DeleteConfigJsonFile(string configPath)
+        public static void DeleteConfigJsonFile()
+        {
+            DeleteConfigJsonFile(ConfigPath);
+        }
+
+
+        private static void DeleteConfigJsonFile(string configPath)
         {
             if (!File.Exists(configPath))
             {
@@ -196,6 +203,8 @@ namespace SOSXR.ConfigData
 
             _previousJson = string.Empty;
             _previousConfigPath = null;
+
+            Debug.LogFormat("Deleted config file at: " + configPath);
         }
 
 

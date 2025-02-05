@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 
 
-namespace SOSXR.ConfigData
+namespace SOSXR.ConfigData.Samples
 {
     public static class QueryURL
     {

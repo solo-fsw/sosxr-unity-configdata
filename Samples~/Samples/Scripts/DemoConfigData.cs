@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace SOSXR.ConfigData
+namespace SOSXR.ConfigData.Samples
 {
     [CreateAssetMenu(fileName = "Demo Config Data", menuName = "SOSXR/Config Data/Demo Config Data")]
     public class DemoConfigData : BaseConfigData
@@ -16,12 +16,12 @@ namespace SOSXR.ConfigData
 
 
         [SerializeField] private string m_baseURL = "https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeA";
-        [SerializeField] private string m_queryStringURL = "";
+        [SerializeField] [TextArea] private string m_queryStringURL = "";
         [SerializeField] private string m_taskName = "TaskToDo";
         [SerializeField] private string m_videoName = "VideoName";
         [SerializeField] private int m_ppn = -1;
         [SerializeField] private bool m_showDebug = false;
-        [SerializeField] private int m_debugUpdateInterval = 1;
+        [SerializeField] [Range(0, 30)] private int m_debugUpdateInterval = 1;
         [SerializeField] private string m_clipDirectory = "/Users/Mine/Videos";
         [SerializeField] private string[] m_extensions = {".mp4"};
         [SerializeField] private Ordering m_order = Ordering.Counterbalanced;
