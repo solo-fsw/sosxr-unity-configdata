@@ -30,15 +30,51 @@ public string DemoThing
     {
         if (m_demoThing == value) return;
         m_demoThing = value;
-        HandleConfigData.AmendConfigJsonFile(this);
+        NotifyChange(nameof(DemoThing), value);
     }
 }
 ```
-Use a `[SerializeField] private` field combined with a `public` property. Have `HandleConfigData.AmendConfigJsonFile(this)` as the last line in the `set` side of things. This way, any time you change any of the properties of the (derived) `ConfigData` class, those changes will automatically get stored into the JSON on disk. See `DemoConfigData` for more examples.
+Use a `[SerializeField] private` field combined with a `public` property. Use the `UpdateJsonOnValueChange` class to register that you want to update the Json when a value changes. This way, any time you change any of the properties of the (derived) `ConfigData` class, those changes will automatically get stored into the JSON on disk. See `DemoConfigData` for more examples.
 
-A similar thing is done in the `OnValidat` on the base class: after any change (in the Inspector for example), the `HandleConfigData.AmendConfigJsonFile(this)` kicks in and will save your changes to disk
+A similar thing is done in the `OnValidate` on the base class: after any change (in the Inspector for example), the `HandleConfigData.UpdateConfigJson(this);` kicks in and will save your changes to disk
 
 Use any of the `ConfigXXXToUnityEvent` classes to pipe through any of the data from the `ConfigData` to a UnityEvent. This will then pass along that info to whatever component you like.
 
-You can subscribe to the `HandleConfigData.OnConfigDataChanged` event to get notified when the data has changed. This is useful for when you want to update your UI, for example. Really make sure that the `if (m_yourField == value) return;` line is in the `set` right before the `HandleConfigData.AmendConfigJsonFile(this)`, otherwise you'll get an infinite loop of events. At least, that occurs if you  subscribe to the `OnConfigDataChanged` event in the same place as where you're changing the data... Speaking from experience here
 
+## PubSub
+### Usage in the property
+```csharp
+[SerializeField] private string m_baseURL = "https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeA";
+public string BaseURL
+{
+    get => m_baseURL;
+    set
+    {
+        if (value == m_baseURL) return;
+        m_baseURL = value;
+        NotifyChange(nameof(BaseURL), value);
+    }
+}
+```
+
+### (Un)subscribe to specific value chance
+``` csharp
+void OnBaseURLChanged(object newValue)
+{
+    Debug.Log($"BaseURL changed to: {newValue}");
+}
+
+configData.Subscribe(nameof(configData.BaseURL), OnBaseURLChanged);
+configData.Unsubscribe(nameof(configData.BaseURL), OnBaseURLChanged);
+```
+
+### (Un)subscribe to any value change
+```csharp
+void OnAnyValueChanged(string propertyName, object newValue)
+{
+    Debug.Log($"{propertyName} changed to: {newValue}");
+}
+
+configData.SubscribeToAny(OnAnyValueChanged);
+configData.UnsubscribeFromAny(OnAnyValueChanged);
+```

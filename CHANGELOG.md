@@ -3,13 +3,23 @@
 All notable changes to this project will be documented in this file.
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [2.3.0] - 2025-02-06
+### Added 
+- Added a PubSub system for the ConfigData
+
+### Updated
+- Updated the samples to include the PubSub system
+- Updated Readme to include the PubSub system
+
+
 ## [2.2.1] - 2025-02-05
 ### Added
 - Auto-delete the JSON file when the ConfigData is deleted from the project
 - Logs when the JSON file is created, loaded, or deleted
 
 ### Changed
-- Namespace for the samples
+- Namespace for the samples 
+- Reverted naming of the json file back to `config.json` since it was causing weird issues
 
 
 ## [2.2.0] - 2025-02-04

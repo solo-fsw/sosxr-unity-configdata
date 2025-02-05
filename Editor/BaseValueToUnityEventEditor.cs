@@ -79,7 +79,7 @@ namespace SOSXR.ConfigData
             }
 
             EditorGUILayout.PropertyField(runOnStartProp);
-
+            
             EditorGUILayout.PropertyField(subscribeToChangesProp);
 
             if (invertProp != null)
@@ -91,7 +91,7 @@ namespace SOSXR.ConfigData
 
             if (GUILayout.Button("Find Values and Fire Event"))
             {
-                ((BaseValueToUnityEvent<object>) target).FindValuesAndFireEvent();
+                ((BaseValueToUnityEvent<object>) target).FireCurrentValue();
             }
 
             serializedObject.ApplyModifiedProperties();

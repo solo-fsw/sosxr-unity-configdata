@@ -19,6 +19,8 @@ namespace SOSXR.ConfigData
 
         public override void OnInspectorGUI()
         {
+            DrawDefaultInspector();
+            
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(configDataProp); // Allow assigning/removing

@@ -9,213 +9,161 @@ namespace SOSXR.ConfigData
     [Serializable]
     public static class HandleConfigData
     {
-        public static string ConfigPath { get; set; }
-        private static string _previousJson;
-        private static string _previousConfigPath;
-
-        public static Action OnConfigDataChanged;
-
-
-        /// <summary>
-        ///     Gets the path to the config file in the persistent data path. Check the User
-        ///     name, Project name and Company name. Given that the file name is "config":
-        ///     On Android is at:
-        ///     - /storage/emulated/0/Android/data/com.DefaultCompany.ProjectName/files/config.json
-        ///     On macOS is at:
-        ///     - /Users/[USERNAME]/Library/Application Support/DefaultCompany/ProjectName/config.jsoni
-        ///     On Windows is at:
-        ///     - C:\Users\[USERNAME]\AppData\LocalLow\DefaultCompany\ProjectName\config.json
-        /// </summary>
-        public static string CreateConfigPath(string fileName)
+        public static string ConfigPath
         {
-            ConfigPath = Path.Combine(Application.persistentDataPath, string.Concat(fileName, ".json"));
+            get
+            {
+                if (string.IsNullOrEmpty(_configPath))
+                {
+                    var path = Path.Combine(Application.persistentDataPath, CONFIG_NAME);
+                    var directory = Path.GetDirectoryName(path);
 
-            return ConfigPath;
+                    if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                    {
+                        try
+                        {
+                            Directory.CreateDirectory(directory);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"Failed to create directory: {ex.Message}");
+                        }
+                    }
+
+                    _configPath = path;
+                }
+
+                return _configPath;
+            }
         }
 
+        private const string CONFIG_NAME = "config.json";
+        private static string _configPath;
 
-        /// <summary>
-        ///     Creates a new default config and writes it to the persistent data path.
-        /// </summary>
-        [ContextMenu(nameof(CreateNewConfigJsonFile))]
-        public static void CreateNewConfigJsonFile(BaseConfigData configData)
+
+        public static void WriteConfigToJson(BaseConfigData configData, bool isUpdate = false)
         {
-            if (File.Exists(_previousConfigPath))
-            {
-                DeleteConfigJsonFile(_previousConfigPath);
-            }
-
-            if (File.Exists(ConfigPath))
-            {
-                DeleteConfigJsonFile(ConfigPath);
-            }
-
             if (configData == null)
             {
-                Debug.LogWarningFormat("ConfigData is null. Please assign a ConfigData to this ConfigDataHandler.");
+                Debug.LogWarning("ConfigData is null. Cannot write config.");
 
                 return;
             }
-
-            CreateConfigPath(configData.ConfigName);
-
-            var jsonData = JsonUtility.ToJson(configData, true);
-            jsonData = CleanJson(jsonData);
 
             try
             {
-                WriteJson(jsonData);
-                Debug.LogFormat("Created new config file at: " + ConfigPath);
+                var jsonData = JsonUtility.ToJson(configData, true);
+                jsonData = CleanJsonData(jsonData);
+
+                var directory = Path.GetDirectoryName(ConfigPath);
+
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                using (var fs = new FileStream(ConfigPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Write(jsonData);
+
+                    if (!isUpdate)
+                    {
+                        Debug.Log($"Writing config to: {ConfigPath}");
+                    }
+                }
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException ex)
             {
-                Debug.LogErrorFormat("Failed to create default config file: " + e.Message);
+                Debug.LogError($"Permission denied while writing config: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to write config: {ex.Message}");
             }
         }
 
 
-        /// <summary>
-        ///     Loads the JSON data from the config file in the persistent data path.
-        /// </summary>
-        [ContextMenu(nameof(LoadConfigFromJsonFile))]
-        public static void LoadConfigFromJsonFile(BaseConfigData configData)
+        public static void LoadConfigFromJson(BaseConfigData configData)
         {
             if (configData == null)
             {
-                Debug.LogWarningFormat("ConfigData is null. Please assign a ConfigData to this ConfigDataHandler.");
+                Debug.LogWarning("ConfigData is null. Cannot load config.");
 
                 return;
             }
-
-            CreateConfigPath(configData.ConfigName);
 
             if (!File.Exists(ConfigPath))
             {
-                CreateNewConfigJsonFile(configData);
-
-                Debug.Log("Could not find existing Json config file at: " + ConfigPath + "" +
-                          "\nCreated a new one instead.");
-
-                return;
-            }
-
-            var jsonData = File.ReadAllText(ConfigPath);
-            jsonData = CleanJson(jsonData);
-
-            if (_previousJson == jsonData)
-            {
-                Debug.LogFormat("ConfigData has not changed.");
+                Debug.Log($"No config found at: {ConfigPath}. Creating new config.");
+                WriteConfigToJson(configData);
 
                 return;
             }
 
             try
             {
+                string jsonData;
+
+                using (var reader = new StreamReader(ConfigPath))
+                {
+                    jsonData = reader.ReadToEnd();
+                }
+
+                jsonData = CleanJsonData(jsonData);
+
                 JsonUtility.FromJsonOverwrite(jsonData, configData);
-
-                OnConfigDataChanged?.Invoke();
-                _previousJson = jsonData;
-
-                Debug.LogFormat("Loaded config file from: " + ConfigPath);
+                Debug.Log($"Loaded config from: {ConfigPath}");
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException ex)
             {
-                Debug.LogErrorFormat("UnauthorizedAccessException: " + e.Message);
+                Debug.LogError($"Permission denied while loading config: {ex.Message}");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogErrorFormat("Exception: " + e.Message);
+                Debug.LogError($"Failed to load config: {ex.Message}");
             }
         }
 
 
-        [ContextMenu(nameof(AmendConfigJsonFile))]
-        public static void AmendConfigJsonFile(BaseConfigData configData)
+        private static string CleanJsonData(string jsonData)
         {
-            if (_previousConfigPath != CreateConfigPath(configData.ConfigName))
-            {
-                DeleteConfigJsonFile(_previousConfigPath);
-            }
+            jsonData = Regex.Replace(jsonData, @"""<(.+?)>k__BackingField""", @"""$1""");
 
-            if (!File.Exists(ConfigPath))
-            {
-                CreateNewConfigJsonFile(configData);
+            return jsonData;
+        }
 
-                return;
-            }
 
-            if (configData == null)
-            {
-                Debug.LogWarningFormat("ConfigData is null. Please assign a ConfigData to this ConfigDataHandler.");
-
-                return;
-            }
-
-            var jsonData = JsonUtility.ToJson(configData, true);
-            jsonData = CleanJson(jsonData);
-
-            if (_previousJson == jsonData)
-            {
-                Debug.LogFormat("ConfigData has not changed.");
-
-                return;
-            }
-
+        public static void DeleteConfigJson(bool isUpdate = false)
+        {
             try
             {
-                WriteJson(jsonData);
+                if (File.Exists(ConfigPath))
+                {
+                    File.Delete(ConfigPath);
 
-                Debug.LogFormat("Amended config file at: " + ConfigPath);
+                    if (!isUpdate)
+                    {
+                        Debug.Log($"Deleted config at: {ConfigPath}");
+                    }
+                }
+                else
+                {
+                    Debug.Log($"No config exists at: {ConfigPath}");
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogErrorFormat("Failed to amend config file: " + e.Message);
+                Debug.LogError($"Failed to delete config: {ex.Message}");
             }
         }
 
 
-        private static void WriteJson(string jsonData)
+        public static void UpdateConfigJson(BaseConfigData configData)
         {
-            File.WriteAllText(ConfigPath, jsonData);
-
-            OnConfigDataChanged?.Invoke();
-
-            _previousConfigPath = ConfigPath;
-            _previousJson = jsonData;
-        }
-
-
-        [ContextMenu(nameof(DeleteConfigJsonFile))]
-        public static void DeleteConfigJsonFile()
-        {
-            DeleteConfigJsonFile(ConfigPath);
-        }
-
-
-        private static void DeleteConfigJsonFile(string configPath)
-        {
-            if (!File.Exists(configPath))
-            {
-                return;
-            }
-
-            File.Delete(configPath);
-
-            _previousJson = string.Empty;
-            _previousConfigPath = null;
-
-            Debug.LogFormat("Deleted config file at: " + configPath);
-        }
-
-
-        /// <summary>
-        ///     Properties have an ugly <PropertyName>k__BackingField in the json. This cleans it up.
-        /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        private static string CleanJson(string json)
-        {
-            return Regex.Replace(json, @"""<(.+?)>k__BackingField""", @"""$1""");
+            DeleteConfigJson(true);
+            WriteConfigToJson(configData, true);
+            Debug.LogFormat(nameof(UpdateConfigJson));
         }
     }
 }

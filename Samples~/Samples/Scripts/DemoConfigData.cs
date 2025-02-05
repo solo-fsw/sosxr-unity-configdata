@@ -41,7 +41,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_baseURL = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -57,7 +57,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_queryStringURL = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -73,7 +73,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_taskName = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -88,7 +88,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_videoName = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -103,7 +103,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_ppn = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -120,7 +120,7 @@ namespace SOSXR.ConfigData.Samples
                     }
 
                     m_ppn = result;
-                    HandleConfigData.AmendConfigJsonFile(this);
+                    // HandleConfigData.AmendConfigJsonFile(this);
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_showDebug = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -155,7 +155,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_debugUpdateInterval = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -170,7 +170,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_clipDirectory = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -185,7 +185,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_extensions = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -200,7 +200,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_order = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -215,7 +215,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_showKeyboard = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -230,7 +230,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_repeat = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
 
@@ -245,7 +245,7 @@ namespace SOSXR.ConfigData.Samples
                 }
 
                 m_position = value;
-                HandleConfigData.AmendConfigJsonFile(this);
+                // HandleConfigData.AmendConfigJsonFile(this);
             }
         }
     }

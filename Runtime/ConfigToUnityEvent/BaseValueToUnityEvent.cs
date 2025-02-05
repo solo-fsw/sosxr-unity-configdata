@@ -13,7 +13,9 @@ namespace SOSXR.ConfigData
         public bool RunOnStart = true;
         public UnityEvent<T> EventToFire;
         public bool SubscribeToChanges = true;
-        public Func<T> GetValue { get; private set; }
+        private Action<object> _onValueChanged;
+
+        private Func<T> GetValue { get; set; }
 
 
         private void OnValidate()
@@ -25,41 +27,57 @@ namespace SOSXR.ConfigData
         private void Awake()
         {
             CacheValueGetter();
+            // Create a persistent delegate for the change handler
+            _onValueChanged = HandleValueChanged;
         }
 
 
         private void Start()
         {
-            if (!RunOnStart)
+            if (RunOnStart)
             {
-                return;
+                FireCurrentValue();
             }
-
-            FindValuesAndFireEvent();
         }
 
 
         private void OnEnable()
         {
-            if (SubscribeToChanges)
+            if (SubscribeToChanges && ConfigData != null)
             {
-                HandleConfigData.OnConfigDataChanged += FindValuesAndFireEvent;
+                ConfigData.Subscribe(ValueName, _onValueChanged);
             }
         }
 
 
-        public void FindValuesAndFireEvent()
+        private void OnDisable()
+        {
+            if (SubscribeToChanges && ConfigData != null)
+            {
+                ConfigData.Unsubscribe(ValueName, _onValueChanged);
+            }
+        }
+
+
+        private void HandleValueChanged(object newValue)
+        {
+            if (newValue is T typedValue)
+            {
+                FireEvent(typedValue);
+            }
+            else
+            {
+                Debug.LogErrorFormat(this,
+                    $"Received value of incorrect type. Expected {typeof(T).Name}, got {newValue?.GetType().Name ?? "null"}");
+            }
+        }
+
+
+        public void FireCurrentValue()
         {
             if (GetValue == null)
             {
-                var typeName = typeof(T).Name;
-
-                if (typeName == "Single")
-                {
-                    typeName = "Float";
-                }
-
-                Debug.LogErrorFormat(this, $"Property or Field of type {typeName} '{ValueName}' not found in {ConfigData?.GetType().Name}.");
+                LogValueError();
 
                 return;
             }
@@ -68,10 +86,24 @@ namespace SOSXR.ConfigData
         }
 
 
+        private void LogValueError()
+        {
+            var typeName = typeof(T).Name;
+
+            if (typeName == "Single")
+            {
+                typeName = "Float";
+            }
+
+            Debug.LogErrorFormat(this,
+                $"Property or Field of type {typeName} '{ValueName}' not found in {ConfigData?.GetType().Name}.");
+        }
+
+
         protected abstract void FireEvent(T value);
 
 
-        public void CacheValueGetter()
+        private void CacheValueGetter()
         {
             if (ConfigData == null || string.IsNullOrEmpty(ValueName))
             {
@@ -103,15 +135,6 @@ namespace SOSXR.ConfigData
             }
 
             GetValue = null;
-        }
-
-
-        private void OnDisable()
-        {
-            if (SubscribeToChanges)
-            {
-                HandleConfigData.OnConfigDataChanged -= FindValuesAndFireEvent;
-            }
         }
     }
 }
