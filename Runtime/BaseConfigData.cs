@@ -46,18 +46,12 @@ namespace SOSXR.ConfigData
 
         public void Initialize()
         {
+            Debug.Log($"Initializing with values which trigger JSON update: {string.Join(", ", UpdateJsonOnValueChange)}");
+
             foreach (var propertyName in UpdateJsonOnValueChange)
             {
-                Subscribe(propertyName, obj => UpdateJson());
-                Debug.LogFormat(this, "Subscribed to {0} for updating the Json", propertyName);
+                Subscribe(propertyName, _ => UpdateConfigJson());
             }
-        }
-
-
-        private void UpdateJson()
-        {
-            HandleConfigData.UpdateConfigJson(this);
-            Debug.LogFormat(this, "Updated Json");
         }
 
 
@@ -104,7 +98,7 @@ namespace SOSXR.ConfigData
         }
 
 
-        private void NotifyChange(string propertyName, object value)
+        protected void NotifyChange(string propertyName, object value)
         {
             if (_valueChangedEvents.TryGetValue(propertyName, out var callback))
             {
@@ -122,7 +116,7 @@ namespace SOSXR.ConfigData
             try
             {
                 _onAnyValueChanged?.Invoke(propertyName, value);
-                Debug.LogFormat(this, $"ConfigData has changed");
+                Debug.LogFormat(this, "AnyValueChanged invoked");
             }
             catch (Exception ex)
             {
@@ -202,11 +196,11 @@ namespace SOSXR.ConfigData
         }
 
 
-        public void Uninitialize()
+        public void DeInitialize()
         {
             foreach (var change in UpdateJsonOnValueChange)
             {
-                Unsubscribe(change, obj => UpdateJson());
+                Unsubscribe(change, _ => UpdateConfigJson());
             }
         }
 

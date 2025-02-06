@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_updateJsonOnSpecificValueChanged:
   - TaskName
+  - ShowDebug
   m_baseURL: https://youtu.be/
-  m_taskName: SOSXR3
-  m_showDebug: 0
-  m_debugUpdateInterval: 3
+  m_taskName: EduXR0009
+  m_showDebug: 1
+  m_debugUpdateInterval: 7
   m_showAffordances: 1

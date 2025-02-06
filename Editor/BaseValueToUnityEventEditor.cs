@@ -79,7 +79,7 @@ namespace SOSXR.ConfigData
             }
 
             EditorGUILayout.PropertyField(runOnStartProp);
-            
+
             EditorGUILayout.PropertyField(subscribeToChangesProp);
 
             if (invertProp != null)

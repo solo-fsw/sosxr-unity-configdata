@@ -33,220 +33,79 @@ namespace SOSXR.ConfigData.Samples
         public string BaseURL
         {
             get => m_baseURL;
-            set
-            {
-                if (value == m_baseURL)
-                {
-                    return;
-                }
-
-                m_baseURL = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_baseURL, value, nameof(BaseURL));
         }
-
 
         public string QueryStringURL
         {
             get => m_queryStringURL;
-            set
-            {
-                if (value == m_queryStringURL)
-                {
-                    return;
-                }
-
-                m_queryStringURL = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_queryStringURL, value, nameof(QueryStringURL));
         }
-
 
         public string TaskName
         {
             get => m_taskName;
-            set
-            {
-                if (value == m_taskName)
-                {
-                    return;
-                }
-
-                m_taskName = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public string VideoName
-        {
-            get => m_videoName;
-            set
-            {
-                if (value == m_videoName)
-                {
-                    return;
-                }
-
-                m_videoName = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public int PPN
-        {
-            get => m_ppn;
-            set
-            {
-                if (value == m_ppn)
-                {
-                    return;
-                }
-
-                m_ppn = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public string PPNString
-        {
-            get => m_ppn.ToString();
-            set
-            {
-                if (int.TryParse(value, out var result))
-                {
-                    if (result == m_ppn)
-                    {
-                        return;
-                    }
-
-                    m_ppn = result;
-                    // HandleConfigData.AmendConfigJsonFile(this);
-                }
-                else
-                {
-                    Debug.LogError("Could not parse PPN to int.");
-                }
-            }
+            set => SetValue(ref m_taskName, value, nameof(TaskName));
         }
 
         public bool ShowDebug
         {
             get => m_showDebug;
-            set
-            {
-                if (value == m_showDebug)
-                {
-                    return;
-                }
-
-                m_showDebug = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_showDebug, value, nameof(ShowDebug));
         }
 
         public int DebugUpdateInterval
         {
             get => m_debugUpdateInterval;
-            set
-            {
-                if (value == m_debugUpdateInterval)
-                {
-                    return;
-                }
-
-                m_debugUpdateInterval = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_debugUpdateInterval, value, nameof(DebugUpdateInterval));
         }
-
+        
+        public string VideoName
+        {
+            get => m_videoName;
+            set => SetValue(ref m_videoName, value, nameof(VideoName));
+        }
+        
+        public int PPN
+        {
+            get => m_ppn;
+            set => SetValue(ref m_ppn, value, nameof(PPN));
+        }
+        
         public string ClipDirectory
         {
             get => m_clipDirectory;
-            set
-            {
-                if (value == m_clipDirectory)
-                {
-                    return;
-                }
-
-                m_clipDirectory = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_clipDirectory, value, nameof(ClipDirectory));
+        }
+        
+        public Ordering Order
+        {
+            get => m_order;
+            set => SetValue(ref m_order, value, nameof(Order));
+        }
+        
+        public bool ShowKeyboard
+        {
+            get => m_showKeyboard;
+            set => SetValue(ref m_showKeyboard, value, nameof(ShowKeyboard));
+        }
+        
+        public bool Repeat
+        {
+            get => m_repeat;
+            set => SetValue(ref m_repeat, value, nameof(Repeat));
+        }
+        
+        public Vector3 Position
+        {
+            get => m_position;
+            set => SetValue(ref m_position, value, nameof(Position));
         }
 
         public string[] Extensions
         {
             get => m_extensions;
-            set
-            {
-                if (value == m_extensions)
-                {
-                    return;
-                }
-
-                m_extensions = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public Ordering Order
-        {
-            get => m_order;
-            set
-            {
-                if (value == m_order)
-                {
-                    return;
-                }
-
-                m_order = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public bool ShowKeyboard
-        {
-            get => m_showKeyboard;
-            set
-            {
-                if (value == m_showKeyboard)
-                {
-                    return;
-                }
-
-                m_showKeyboard = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public bool Repeat
-        {
-            get => m_repeat;
-            set
-            {
-                if (value == m_repeat)
-                {
-                    return;
-                }
-
-                m_repeat = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
-        }
-
-        public Vector3 Position
-        {
-            get => m_position;
-            set
-            {
-                if (value == m_position)
-                {
-                    return;
-                }
-
-                m_position = value;
-                // HandleConfigData.AmendConfigJsonFile(this);
-            }
+            set => SetValue(ref m_extensions, value, nameof(Extensions));
         }
     }
 }

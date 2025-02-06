@@ -34,7 +34,15 @@ namespace SOSXR.ConfigData
 
             if (_validValueNames.Length > 0)
             {
-                EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update", EditorStyles.boldLabel);
+                if (Application.isPlaying)
+                {
+                    EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update", EditorStyles.boldLabel);
+                }
+                else
+                {
+                    EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update, but only in PlayMode", EditorStyles.boldLabel);
+                }
+
                 DrawCheckBoxes();
             }
             else

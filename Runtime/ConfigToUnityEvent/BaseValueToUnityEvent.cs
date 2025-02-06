@@ -27,8 +27,8 @@ namespace SOSXR.ConfigData
         private void Awake()
         {
             CacheValueGetter();
-            // Create a persistent delegate for the change handler
-            _onValueChanged = HandleValueChanged;
+
+            _onValueChanged = HandleValueChanged; // Create a persistent delegate for the change handler
         }
 
 
@@ -50,15 +50,6 @@ namespace SOSXR.ConfigData
         }
 
 
-        private void OnDisable()
-        {
-            if (SubscribeToChanges && ConfigData != null)
-            {
-                ConfigData.Unsubscribe(ValueName, _onValueChanged);
-            }
-        }
-
-
         private void HandleValueChanged(object newValue)
         {
             if (newValue is T typedValue)
@@ -67,8 +58,7 @@ namespace SOSXR.ConfigData
             }
             else
             {
-                Debug.LogErrorFormat(this,
-                    $"Received value of incorrect type. Expected {typeof(T).Name}, got {newValue?.GetType().Name ?? "null"}");
+                Debug.LogErrorFormat(this, $"Received value of incorrect type. Expected {typeof(T).Name}, got {newValue?.GetType().Name ?? "null"}");
             }
         }
 
@@ -135,6 +125,15 @@ namespace SOSXR.ConfigData
             }
 
             GetValue = null;
+        }
+
+
+        private void OnDisable()
+        {
+            if (SubscribeToChanges && ConfigData != null)
+            {
+                ConfigData.Unsubscribe(ValueName, _onValueChanged);
+            }
         }
     }
 }

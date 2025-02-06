@@ -9,7 +9,7 @@ namespace SOSXR.ConfigData
     /// </summary>
     public class WrapConfigData : MonoBehaviour
     {
-        [HideInInspector] public TestConfigData ConfigData;
+        [HideInInspector] public BaseConfigData ConfigData;
 
 
         private void Awake()
@@ -18,27 +18,9 @@ namespace SOSXR.ConfigData
         }
 
 
-        private void OnEnable()
-        {
-            ConfigData.Subscribe(nameof(ConfigData.ShowAffordances), obj => Lemmeno());
-        }
-
-
-        private void Lemmeno()
-        {
-            Debug.LogFormat(this, "ShowAffordances changed to {0}", ConfigData.ShowAffordances);
-        }
-
-
-        private void OnDisable()
-        {
-            ConfigData.Unsubscribe(nameof(ConfigData.ShowAffordances), obj => Lemmeno());
-        }
-
-
         private void OnDestroy()
         {
-            ConfigData.Uninitialize();
+            ConfigData.DeInitialize();
         }
     }
 }

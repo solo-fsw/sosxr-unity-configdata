@@ -40,6 +40,8 @@ A similar thing is done in the `OnValidate` on the base class: after any change 
 
 Use any of the `ConfigXXXToUnityEvent` classes to pipe through any of the data from the `ConfigData` to a UnityEvent. This will then pass along that info to whatever component you like.
 
+While in the Editor, the OnValidate should pick up on any changes to the ScriptableObject, but only while in Play Mode. If not in Play Mode, you have to hit the `UpdateConfigJson` button to save your changes to disk.
+
 
 ## PubSub
 ### Usage in the property
@@ -48,33 +50,42 @@ Use any of the `ConfigXXXToUnityEvent` classes to pipe through any of the data f
 public string BaseURL
 {
     get => m_baseURL;
-    set
-    {
-        if (value == m_baseURL) return;
-        m_baseURL = value;
-        NotifyChange(nameof(BaseURL), value);
-    }
+    set => SetValue(ref m_baseURL, value, nameof(BaseURL));
 }
 ```
 
 ### (Un)subscribe to specific value chance
 ``` csharp
-void OnBaseURLChanged(object newValue)
+private void OnEnable()
 {
-    Debug.Log($"BaseURL changed to: {newValue}");
+    configData.Subscribe(nameof(configData.ShowDebug), _ => RespondToNotification());
 }
 
-configData.Subscribe(nameof(configData.BaseURL), OnBaseURLChanged);
-configData.Unsubscribe(nameof(configData.BaseURL), OnBaseURLChanged);
+private void RespondToNotification()
+{
+    Debug.LogFormat("ShowDebug changed to {0}", configData.ShowDebug);
+}
+
+private void OnDisable()
+{
+    configData.Unsubscribe(nameof(configData.ShowDebug), _ => RespondToNotification());
+}
 ```
 
 ### (Un)subscribe to any value change
 ```csharp
-void OnAnyValueChanged(string propertyName, object newValue)
+private void OnEnable()
+{
+    configData.SubscribeToAny(OnAnyValueChanged);
+}
+
+private void OnAnyValueChanged(string propertyName, object newValue)
 {
     Debug.Log($"{propertyName} changed to: {newValue}");
 }
 
-configData.SubscribeToAny(OnAnyValueChanged);
-configData.UnsubscribeFromAny(OnAnyValueChanged);
+private void OnDisable()
+{
+    configData.UnsubscribeFromAny(OnAnyValueChanged);
+}
 ```

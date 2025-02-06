@@ -96,6 +96,7 @@ namespace SOSXR.ConfigData
             if (!File.Exists(ConfigPath))
             {
                 Debug.Log($"No config found at: {ConfigPath}. Creating new config.");
+
                 WriteConfigToJson(configData);
 
                 return;
@@ -111,8 +112,8 @@ namespace SOSXR.ConfigData
                 }
 
                 jsonData = CleanJsonData(jsonData);
-
                 JsonUtility.FromJsonOverwrite(jsonData, configData);
+
                 Debug.Log($"Loaded config from: {ConfigPath}");
             }
             catch (UnauthorizedAccessException ex)
@@ -163,7 +164,7 @@ namespace SOSXR.ConfigData
         {
             DeleteConfigJson(true);
             WriteConfigToJson(configData, true);
-            Debug.LogFormat(nameof(UpdateConfigJson));
+            Debug.LogFormat("Updated config at: {0}. (update = delete + write)", ConfigPath);
         }
     }
 }
