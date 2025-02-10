@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [2.3.2] - 2025-02-10
+### Fixed
+- Fixed a bug where the ConfigData would not store the JSON when changing the value of a ConfigData in the Inspector
+
+
 ## [2.3.1] - 2025-02-06
 ### Fixed
 - Bugs

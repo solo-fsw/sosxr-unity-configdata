@@ -129,9 +129,8 @@ namespace SOSXR.ConfigData
         {
             var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            // Build a mapping of field names to property names
-            var fieldToPropertyMap = new Dictionary<string, string>();
+            
+            var fieldToPropertyMap = new Dictionary<string, string>();  // Build a mapping of field names to property names
 
             foreach (var property in properties)
             {
@@ -143,7 +142,6 @@ namespace SOSXR.ConfigData
             {
                 var currentValue = field.GetValue(this);
 
-                // Skip if this is our UpdateJsonOnValueChange backing field
                 if (field.Name == nameof(m_updateJsonOnSpecificValueChanged))
                 {
                     continue;
@@ -157,26 +155,30 @@ namespace SOSXR.ConfigData
                     continue;
                 }
 
-                // Check if the value actually changed
+                // Field names and property names differ in that the field starts with "m_" and the property does not, and the property is capitalized.
+                var guessedPropertyName = field.Name.StartsWith("m_") ? field.Name.Substring(2) : field.Name;
+                guessedPropertyName = char.ToUpper(guessedPropertyName[0]) + guessedPropertyName.Substring(1);
+
                 if (!Equals(previousValue, currentValue))
                 {
-                    // Update the stored previous value
-                    _previousValues[field.Name] = currentValue;
+                    _previousValues[field.Name] = currentValue; // Update the stored previous value
 
-                    // Find the corresponding property name
-                    if (fieldToPropertyMap.TryGetValue(field.Name, out var propertyName))
+                    if (fieldToPropertyMap.TryGetValue(field.Name, out var propertyName)) // Find the corresponding property name
                     {
-                        // Notify using the property name instead of the field name
                         NotifyChange(propertyName, currentValue);
                     }
-                    else
+                    else if (fieldToPropertyMap.ContainsValue(guessedPropertyName)) // If no property found, use the guessed property name
                     {
-                        // If no property found, use the field name directly
+                        NotifyChange(guessedPropertyName, currentValue);
+                    }
+                    else // If no property found, use the field name directly
+                    {
                         NotifyChange(field.Name, currentValue);
+
+                        Debug.LogWarningFormat("Notified using Field name {0}, is this correct?", field.Name);
                     }
 
-                    // Always notify general listeners with the same name we used above
-                    _onAnyValueChanged?.Invoke(propertyName ?? field.Name, currentValue);
+                    _onAnyValueChanged?.Invoke(propertyName ?? field.Name, currentValue); // Always notify general listeners with the same name we used aboveeioc
                 }
             }
         }

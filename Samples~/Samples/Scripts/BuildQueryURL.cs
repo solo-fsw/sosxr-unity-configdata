@@ -14,7 +14,7 @@ namespace SOSXR.ConfigData.Samples
 
         private void OnEnable()
         {
-            HandleConfigData.OnConfigDataChanged += BuildQuery;
+            m_configData.Subscribe(nameof(m_configData.PPN), _ => BuildQuery());
         }
 
 
@@ -34,7 +34,7 @@ namespace SOSXR.ConfigData.Samples
 
         private void OnDisable()
         {
-            HandleConfigData.OnConfigDataChanged -= BuildQuery;
+            m_configData.Unsubscribe(nameof(m_configData.PPN), _ => BuildQuery());
         }
     }
 }

@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42b97687c9246beaee069b27ff01f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: Position
   RunOnStart: 1
   EventToFire:
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cc86fcf318e4d05b250351118d54150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: 
   RunOnStart: 1
   EventToFire:
@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cde4884f88343b5961581858f442623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: ShowDebug
   RunOnStart: 1
   EventToFire:
@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3de4bbb1703402b9e541af831481e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: QueryStringURL
   RunOnStart: 1
   EventToFire:
@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cde4884f88343b5961581858f442623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: ShowDebug
   RunOnStart: 1
   EventToFire:
@@ -2110,7 +2110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2c623e1cc44fc785331ead6c2ebb13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: PPN
   RunOnStart: 1
   EventToFire:
@@ -2714,7 +2714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02176916bca4134b6fc74641ffb7f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
 --- !u!4 &1535036963
 Transform:
   m_ObjectHideFlags: 0
@@ -2759,7 +2759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3de4bbb1703402b9e541af831481e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfigData: {fileID: 11400000, guid: e48abef9f87444f65a769641eedac4b7, type: 2}
+  ConfigData: {fileID: 0}
   ValueName: BaseURL
   RunOnStart: 1
   EventToFire:

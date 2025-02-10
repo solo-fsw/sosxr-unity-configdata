@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 namespace SOSXR.ConfigData.Samples
 {
     [CreateAssetMenu(fileName = "Demo Config Data", menuName = "SOSXR/Config Data/Demo Config Data")]
@@ -14,12 +13,11 @@ namespace SOSXR.ConfigData.Samples
             Counterbalanced
         }
 
-
         [SerializeField] private string m_baseURL = "https://youtu.be/xvFZjo5PgG0?si=F3cJFXtwofUAeA";
         [SerializeField] [TextArea] private string m_queryStringURL = "";
         [SerializeField] private string m_taskName = "TaskToDo";
         [SerializeField] private string m_videoName = "VideoName";
-        [SerializeField] private int m_ppn = -1;
+        [SerializeField] private int m_PPN = -1;
         [SerializeField] private bool m_showDebug = false;
         [SerializeField] [Range(0, 30)] private int m_debugUpdateInterval = 1;
         [SerializeField] private string m_clipDirectory = "/Users/Mine/Videos";
@@ -59,43 +57,58 @@ namespace SOSXR.ConfigData.Samples
             get => m_debugUpdateInterval;
             set => SetValue(ref m_debugUpdateInterval, value, nameof(DebugUpdateInterval));
         }
-        
+
         public string VideoName
         {
             get => m_videoName;
             set => SetValue(ref m_videoName, value, nameof(VideoName));
         }
-        
+
         public int PPN
         {
-            get => m_ppn;
-            set => SetValue(ref m_ppn, value, nameof(PPN));
+            get => m_PPN;
+            set => SetValue(ref m_PPN, value, nameof(PPN));
         }
-        
+
+        public string PPNStr
+        {
+            set
+            {
+                if (int.TryParse(value, out var result))
+                {
+                    PPN = result;
+                }
+                else
+                {
+                    Debug.LogError("Failed to parse PPN from string. Is it an int?");
+                }
+            }
+        }
+
         public string ClipDirectory
         {
             get => m_clipDirectory;
             set => SetValue(ref m_clipDirectory, value, nameof(ClipDirectory));
         }
-        
+
         public Ordering Order
         {
             get => m_order;
             set => SetValue(ref m_order, value, nameof(Order));
         }
-        
+
         public bool ShowKeyboard
         {
             get => m_showKeyboard;
             set => SetValue(ref m_showKeyboard, value, nameof(ShowKeyboard));
         }
-        
+
         public bool Repeat
         {
             get => m_repeat;
             set => SetValue(ref m_repeat, value, nameof(Repeat));
         }
-        
+
         public Vector3 Position
         {
             get => m_position;

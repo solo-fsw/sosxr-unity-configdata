@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7fe3c4cf864aadbeb4ab5da2a5aab7, type: 3}
   m_Name: Demo_Config_Data
   m_EditorClassIdentifier: 
+  m_updateJsonOnSpecificValueChanged:
+  - PPN
   m_baseURL: https://youtu.be/
-  QueryStringURL: 
-  m_taskName: TaskToDo
-  m_videoName: VideoName
-  m_ppn: -1
+  m_queryStringURL: google.com/?=task=name
+  m_taskName: Vennila
+  m_videoName: enmeinien
+  m_PPN: 20
   m_showDebug: 0
   m_debugUpdateInterval: 1
   m_clipDirectory: /Users/Mine/Videos
