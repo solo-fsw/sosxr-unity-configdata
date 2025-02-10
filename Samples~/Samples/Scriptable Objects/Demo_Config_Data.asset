@@ -15,10 +15,10 @@ MonoBehaviour:
   m_updateJsonOnSpecificValueChanged:
   - PPN
   m_baseURL: https://youtu.be/
-  m_queryStringURL: google.com/?=task=name
-  m_taskName: Vennila
-  m_videoName: enmeinien
-  m_PPN: 20
+  m_queryStringURL: https://youtu.be/?taskName=ThingToDo&videoName=RickRolling&PPN=42
+  m_taskName: ThingToDo
+  m_videoName: RickRolling
+  m_PPN: 42
   m_showDebug: 0
   m_debugUpdateInterval: 1
   m_clipDirectory: /Users/Mine/Videos

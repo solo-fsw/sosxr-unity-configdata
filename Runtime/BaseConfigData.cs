@@ -116,7 +116,6 @@ namespace SOSXR.ConfigData
             try
             {
                 _onAnyValueChanged?.Invoke(propertyName, value);
-                Debug.LogFormat(this, "AnyValueChanged invoked");
             }
             catch (Exception ex)
             {
@@ -129,8 +128,8 @@ namespace SOSXR.ConfigData
         {
             var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            
-            var fieldToPropertyMap = new Dictionary<string, string>();  // Build a mapping of field names to property names
+
+            var fieldToPropertyMap = new Dictionary<string, string>(); // Build a mapping of field names to property names
 
             foreach (var property in properties)
             {
