@@ -106,4 +106,4 @@ private void OnDisable()
 }
 ```
 
-A similar thing is done in the `OnValidate` on the `BaseConfigData` class: after any change (in the Inspector for example) to any field that's in the `m_updateJsonOnSpecificValueChanged` list, the `HandleConfigData.UpdateConfigJson(this);` kicks in and will save your changes to disk (but see [Bonus](# bonus)).
+A similar thing is done in the `OnValidate` on the `BaseConfigData` class: after any change (in the Inspector for example) to any field that's in the `m_updateJsonOnSpecificValueChanged` list, the `HandleConfigData.UpdateConfigJson(this);` kicks in and will save your changes to disk (but see [Bonus](#bonus)).
