@@ -19,13 +19,33 @@ namespace SOSXR.ConfigData
         private void OnEnable()
         {
             _updateJsonOnValueChangeProp = serializedObject.FindProperty("m_updateJsonOnSpecificValueChanged");
-            UpdateFieldList();
+
+            UpdateFieldsAndPropertiesList();
+        }
+
+
+        private void UpdateFieldsAndPropertiesList()
+        {
+            var configType = target.GetType();
+
+            var properties = configType
+                             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                             .Where(p => p.CanRead && !_excludedNames.Contains(p.Name))
+                             .Select(p => p.Name);
+
+            var fields = configType
+                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                         .Where(f => !_excludedNames.Contains(f.Name))
+                         .Select(f => f.Name);
+
+            _validValueNames = properties.Concat(fields).ToArray();
         }
 
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+
             var configData = (BaseConfigData) target;
 
             DrawDefaultInspector();
@@ -34,14 +54,7 @@ namespace SOSXR.ConfigData
 
             if (_validValueNames.Length > 0)
             {
-                if (Application.isPlaying)
-                {
-                    EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update", EditorStyles.boldLabel);
-                }
-                else
-                {
-                    EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update, but only in PlayMode", EditorStyles.boldLabel);
-                }
+                EditorGUILayout.LabelField("Changes to these fields/properties will trigger a JSON update", EditorStyles.boldLabel);
 
                 DrawCheckBoxes();
             }
@@ -84,24 +97,6 @@ namespace SOSXR.ConfigData
         }
 
 
-        private void UpdateFieldList()
-        {
-            var configType = target.GetType();
-
-            var properties = configType
-                             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                             .Where(p => p.CanRead && !_excludedNames.Contains(p.Name))
-                             .Select(p => p.Name);
-
-            var fields = configType
-                         .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                         .Where(f => !_excludedNames.Contains(f.Name))
-                         .Select(f => f.Name);
-
-            _validValueNames = properties.Concat(fields).ToArray();
-        }
-
-
         private void AddToJsonUpdateList(string value)
         {
             _updateJsonOnValueChangeProp.arraySize++;
@@ -125,32 +120,33 @@ namespace SOSXR.ConfigData
 
         private static void DrawButtons(BaseConfigData configData)
         {
-            EditorGUILayout.LabelField("ConfigData", EditorStyles.boldLabel);
-
-            var configJsonExists = File.Exists(HandleConfigData.ConfigPath);
-
-            if (!configJsonExists && GUILayout.Button(nameof(HandleConfigData.WriteConfigToJson)))
+            if (!File.Exists(HandleConfigData.ConfigPath))
             {
-                HandleConfigData.WriteConfigToJson(configData);
+                if (GUILayout.Button(nameof(HandleConfigData.WriteConfigToJson)))
+                {
+                    HandleConfigData.WriteConfigToJson(configData);
+                }
+
+                return;
             }
 
-            if (configJsonExists && GUILayout.Button(nameof(HandleConfigData.LoadConfigFromJson)))
+            if (GUILayout.Button(nameof(HandleConfigData.LoadConfigFromJson)))
             {
                 HandleConfigData.LoadConfigFromJson(configData);
             }
 
-            if (configJsonExists && GUILayout.Button(nameof(HandleConfigData.UpdateConfigJson)))
+            if (GUILayout.Button(nameof(HandleConfigData.UpdateConfigJson)))
             {
                 HandleConfigData.UpdateConfigJson(configData);
             }
 
-            if (configJsonExists && GUILayout.Button(nameof(HandleConfigData.DeleteConfigJson)))
+            if (GUILayout.Button(nameof(HandleConfigData.DeleteConfigJson)))
             {
                 HandleConfigData.DeleteConfigJson();
             }
 
             #if !UNITY_EDITOR_LINUX
-            if (configJsonExists && GUILayout.Button("Reveal in Finder"))
+            if (GUILayout.Button("Reveal in Finder"))
             {
                 EditorUtility.RevealInFinder(HandleConfigData.ConfigPath);
             }

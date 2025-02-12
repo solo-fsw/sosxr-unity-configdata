@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SOSXR.ConfigData
 {
-    public class ValueVector2ToUnityEvent : BaseValueToUnityEvent<Vector2>
+    public class ConfigVector2ToUnityEvent : ConfigValueToUnityEvent<Vector2>
     {
         protected override void FireEvent(Vector2 value)
         {

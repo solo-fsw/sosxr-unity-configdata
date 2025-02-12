@@ -1,6 +1,6 @@
 namespace SOSXR.ConfigData
 {
-    public class ConfigBoolToUnityEvent : BaseValueToUnityEvent<bool>
+    public class ConfigBoolToUnityEvent : ConfigValueToUnityEvent<bool>
     {
         public bool Invert = false;
 

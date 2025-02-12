@@ -190,6 +190,13 @@ namespace SOSXR.ConfigData
         }
 
 
+        [ContextMenu(nameof(ReadJson))]
+        public string ReadJson()
+        {
+            return HandleConfigData.ReadConfigJson(this);
+        }
+
+
         [ContextMenu(nameof(UpdateConfigJson))]
         public void UpdateConfigJson()
         {

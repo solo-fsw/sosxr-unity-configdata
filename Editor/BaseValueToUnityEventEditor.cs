@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SOSXR.ConfigData
 {
-    [CustomEditor(typeof(BaseValueToUnityEvent<>), true)] // Supports subclasses
+    [CustomEditor(typeof(ConfigValueToUnityEvent<>), true)] // Supports subclasses
     [CanEditMultipleObjects]
     public class BaseValueToUnityEventEditor : Editor
     {
@@ -24,11 +24,11 @@ namespace SOSXR.ConfigData
 
         private void OnEnable()
         {
-            runOnStartProp = serializedObject.FindProperty(nameof(BaseValueToUnityEvent<object>.RunOnStart));
-            configDataProp = serializedObject.FindProperty(nameof(BaseValueToUnityEvent<object>.ConfigData));
-            valueNameProp = serializedObject.FindProperty(nameof(BaseValueToUnityEvent<object>.ValueName));
-            eventToFireProp = serializedObject.FindProperty(nameof(BaseValueToUnityEvent<object>.EventToFire));
-            subscribeToChangesProp = serializedObject.FindProperty(nameof(BaseValueToUnityEvent<object>.SubscribeToChanges));
+            runOnStartProp = serializedObject.FindProperty(nameof(ConfigValueToUnityEvent<object>.RunOnStart));
+            configDataProp = serializedObject.FindProperty(nameof(ConfigValueToUnityEvent<object>.ConfigData));
+            valueNameProp = serializedObject.FindProperty(nameof(ConfigValueToUnityEvent<object>.ValueName));
+            eventToFireProp = serializedObject.FindProperty(nameof(ConfigValueToUnityEvent<object>.EventToFire));
+            subscribeToChangesProp = serializedObject.FindProperty(nameof(ConfigValueToUnityEvent<object>.SubscribeToChanges));
 
             invertProp = serializedObject.FindProperty(nameof(ConfigBoolToUnityEvent.Invert));
 
@@ -91,7 +91,7 @@ namespace SOSXR.ConfigData
 
             if (GUILayout.Button("Find Values and Fire Event"))
             {
-                ((BaseValueToUnityEvent<object>) target).FireCurrentValue();
+                ((ConfigValueToUnityEvent<object>) target).FireCurrentValue();
             }
 
             serializedObject.ApplyModifiedProperties();

@@ -127,6 +127,58 @@ namespace SOSXR.ConfigData
         }
 
 
+        public static string ReadConfigJson(BaseConfigData configData)
+        {
+            var errorMsg = string.Empty;
+
+            if (configData == null)
+            {
+                errorMsg = "ConfigData is null. Cannot load config.";
+                Debug.LogWarning(errorMsg);
+
+                return errorMsg;
+            }
+
+            if (!File.Exists(ConfigPath))
+            {
+                errorMsg = $"No config to read found at: {ConfigPath}.";
+                Debug.Log(errorMsg);
+
+                return errorMsg;
+            }
+
+            try
+            {
+                string jsonData;
+
+                using (var reader = new StreamReader(ConfigPath))
+                {
+                    jsonData = reader.ReadToEnd();
+                }
+
+                jsonData = CleanJsonData(jsonData);
+
+                Debug.Log($"Read config from: {ConfigPath}");
+
+                return jsonData;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                errorMsg = $"Permission denied while reading config: {ex.Message}";
+                Debug.LogError(errorMsg);
+
+                return errorMsg;
+            }
+            catch (Exception ex)
+            {
+                errorMsg = $"Failed to read config: {ex.Message}";
+                Debug.LogError(errorMsg);
+
+                return errorMsg;
+            }
+        }
+
+
         private static string CleanJsonData(string jsonData)
         {
             jsonData = Regex.Replace(jsonData, @"""<(.+?)>k__BackingField""", @"""$1""");

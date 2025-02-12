@@ -1,6 +1,6 @@
 namespace SOSXR.ConfigData
 {
-    public class ValueStringToUnityEvent : BaseValueToUnityEvent<string>
+    public class ConfigStringToUnityEvent : ConfigValueToUnityEvent<string>
     {
         protected override void FireEvent(string value)
         {

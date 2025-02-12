@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace SOSXR.ConfigData
 {
-    public abstract class BaseValueToUnityEvent<T> : MonoBehaviour
+    public abstract class ConfigValueToUnityEvent<T> : MonoBehaviour
     {
         public BaseConfigData ConfigData;
         public string ValueName;
