@@ -213,6 +213,15 @@ namespace SOSXR.ConfigData
         }
 
 
+        [ContextMenu(nameof(ForceUnsubscribeAll))]
+        public void ForceUnsubscribeAll()
+        {
+            _valueChangedEvents.Clear();
+            _onAnyValueChanged = null;
+            Debug.LogWarning("All listeners have been forcibly evicted.");
+        }
+
+
         private void OnDestroy()
         {
             HandleConfigData.DeleteConfigJson();

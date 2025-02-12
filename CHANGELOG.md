@@ -6,7 +6,10 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 ## [2.3.4] -- in progress
 ### Fixed
 - More control over which variables will be saved in the JSON file
-- 
+
+### Added
+- Force unsubscribe option (right mouse on the ConfigData SO) from the PubSub system
+
 
 ## [2.3.2] - 2025-02-10
 ### Fixed
