@@ -4,6 +4,8 @@
 - For: Leiden University SOSXR
 - Fully open source: Feel free to add to, or modify, anything you see fit.
 
+## Deprecation Notice
+Config Data is now part of [SeaShark](https://github.com/solo-fsw/sosxr-unity-seashark) and will be maintained there
 
 ## Installation
 1. Open the Unity project you want to install this package in.
